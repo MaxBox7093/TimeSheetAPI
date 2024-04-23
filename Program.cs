@@ -1,9 +1,14 @@
+using TimeSheetAPI.Models;
+
 namespace TimeSheetAPI
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            SQLConnection db = new SQLConnection();
+            db.ConnectionDB();
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
