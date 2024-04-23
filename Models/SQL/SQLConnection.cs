@@ -1,12 +1,16 @@
 ﻿using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
+using System;
+using System.Data;
+using System.IO;
 
-namespace TimeSheetAPI.Models
+namespace TimeSheetAPI.Models.SQL
 {
     public class SQLConnection
     {
         // Строка подключения
-        private string connectionString;
+        private string? connectionString;
+        private SqlConnection connection;
 
         public SQLConnection()
         {
@@ -25,10 +29,10 @@ namespace TimeSheetAPI.Models
                 string json = File.ReadAllText(secretFilePath);
 
                 // Десериализация JSON в объект
-                dynamic secretObject = JsonConvert.DeserializeObject(json);
+                dynamic? secretObject = JsonConvert.DeserializeObject(json);
 
                 // Извлечение строки подключения
-                connectionString = secretObject.DefaultConnection;
+                connectionString = secretObject?.DefaultConnection;
             }
             else
             {
@@ -37,23 +41,22 @@ namespace TimeSheetAPI.Models
             }
         }
 
-        public void ConnectionDB()
+        public SqlConnection ConnectionDB()
         {
             // Проверяем, была ли успешно загружена строка подключения
             if (!string.IsNullOrEmpty(connectionString))
             {
                 // Создаем подключение к базе данных
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                }
+                connection = new SqlConnection(connectionString);
+                connection.Open();
             }
             else
             {
                 // В случае, если строка подключения не была загружена, выводим сообщение об ошибке или предпринимаем соответствующие действия
                 Console.WriteLine("Не удалось загрузить строку подключения из файла Secret.json.");
             }
+
+            return connection;
         }
     }
-
 }

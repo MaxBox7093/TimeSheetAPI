@@ -1,4 +1,5 @@
 using TimeSheetAPI.Models;
+using TimeSheetAPI.Models.SQL;
 
 namespace TimeSheetAPI
 {
@@ -6,9 +7,9 @@ namespace TimeSheetAPI
     {
         public static void Main(string[] args)
         {
-            SQLConnection db = new SQLConnection();
-            db.ConnectionDB();
-
+            SQLRequest request = new SQLRequest();
+            User_login user = new User_login("d", "d", 1, "d", "d");
+            request.InsertRegistrationUser(user);
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
