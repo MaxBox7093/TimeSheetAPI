@@ -16,7 +16,7 @@ namespace TimeSheetAPI.Models
         private void LoadConnectionString()
         {
             // Путь к файлу Secret.json
-            string secretFilePath = "C:\\Users\\maxim\\AppData\\Roaming\\Microsoft\\UserSecrets\\3e9284de-b6f4-4d81-878e-768c2e46f294\\secrets.json";
+            string secretFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Microsoft\\UserSecrets\\3e9284de-b6f4-4d81-878e-768c2e46f294\\secrets.json";
 
             // Проверяем, существует ли файл
             if (File.Exists(secretFilePath))
