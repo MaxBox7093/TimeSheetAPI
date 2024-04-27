@@ -2,34 +2,33 @@
 using Newtonsoft.Json.Linq;
 namespace TimeSheetAPI.Models.SQL
 {
-    public class SQLRequest
+    public class SQLRequest: SQLConnection
     {
         private SqlConnection connection;
+
         public SQLRequest() 
         {
-            SQLConnection db = new SQLConnection();
-            this.connection = db.ConnectionDB();
+            connection = ConnectionDB();
         }
 
-        public void InsertRegistrationUser(User_login user)
+        //Регистрация пользователя в DB
+        public void InsertRegistrationUser()
         {
             try 
             {
-                string name = user.Name;
-                string lastname = user.Lastname;
-                int age = user.Age;
+                string name = "Супер";
+                string lastname = "Учетка";
 
-                string login = user.Login;
-                string password = user.Password;
+                string login = "Admin";
+                string password = "0000";
 
                 SqlTransaction transaction = connection.BeginTransaction();
 
                 // Вставка записи в User
-                string insertTable1Query = "INSERT INTO Users (name, lastname, age) VALUES (@name, @lastname, @age); SELECT SCOPE_IDENTITY();";
+                string insertTable1Query = "INSERT INTO Users (name, lastname) VALUES (@name, @lastname); SELECT SCOPE_IDENTITY();";
                 SqlCommand command1 = new SqlCommand(insertTable1Query, connection, transaction);
                 command1.Parameters.AddWithValue("@name", name);
                 command1.Parameters.AddWithValue("@lastname", lastname);
-                command1.Parameters.AddWithValue("@age", age);
                 int lastInsertedId = Convert.ToInt32(command1.ExecuteScalar());
 
                 // Вставка записи в User_login
@@ -50,6 +49,17 @@ namespace TimeSheetAPI.Models.SQL
                 Console.WriteLine("Ошибка добавления пользователя\n" + ex.Message);
             }
         }
+
+        public int GetUserId(string login, string password) 
+        {
+            string request = "SELECT Id_user_lg FROM Users_login WHERE login = @Login AND password = @Password";
+            var command = new SqlCommand(request, connection);
+            command.Parameters.AddWithValue("@Login", login);
+            command.Parameters.AddWithValue("@Password", password);
+            return Convert.ToInt32(command.ExecuteScalar());
+        }
+
+
 
         public void Select(ref string login, ref string password) 
         {

@@ -10,7 +10,7 @@ namespace TimeSheetAPI.Models.SQL
     {
         // Строка подключения
         private string? connectionString;
-        private SqlConnection connection;
+        protected SqlConnection connection;
 
         public SQLConnection()
         {
@@ -56,7 +56,7 @@ namespace TimeSheetAPI.Models.SQL
                 Console.WriteLine("Не удалось загрузить строку подключения из файла Secret.json.");
             }
 
-            return connection;
+        return connection;
         }
     }
 }

@@ -1,8 +1,58 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeSheetAPI</title>
+</head>
+<body>
+    <div class="container c1">
+        <div id="textregcon">
+            <h1>Авторизация</h1>
+            <br />
+            <form id="loginForm" method="GET">
+                <label for="login">Логин</label>
+                <br />
+                <input type="text" id="login" name="login" placeholder="введите логин пользователя">
+                <br />
+                <label for="pswd">Пароль</label>
+                <br />
+                <input type="password" id="pswd" name="password" placeholder="введите пароль пользователя">
+            </form>
+        </div>
+        <br />
+        <label for="reslt">Результат</label>
+        <br />
+        <input type="text" id="reslt" name="reslt" placeholder="результат (id)">
+        <br />
+        <br />
+        <button id="sub">Сабмит!</button>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <script>
+        document.getElementById('sub').addEventListener('click', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение кнопки submit
+
+            var lg = document.getElementById('login').value;
+            var ps = document.getElementById('pswd').value;
+            var res = document.getElementById('reslt');
+
+            // Отправляем запрос на сервер
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', `https://localhost:7287/api/login?login=${lg}&password=${ps}`, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    res.value = data.userId;
+                } else {
+                    res.value = "Ошибка: " + xhr.statusText;
+                }
+            };
+            xhr.onerror = function () {
+                res.value = "Ошибка сети";
+            };
+            xhr.send();
+        });
+    </script>
+</body>
+</html>

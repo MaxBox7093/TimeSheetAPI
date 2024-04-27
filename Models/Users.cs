@@ -2,9 +2,25 @@
 {
     public class Users
     {
-        public string Name { get; set; }
-        public string Lastname { get; set; }
-        public int Age { get; set; }
+        public string Name;
+        public string Lastname;
+        public int Age;
+
+        //Методы на получение значений
+        public string GetName
+        {
+            get { return Name; }
+        }
+
+        public string GetLastname
+        {
+            get { return Lastname; }
+        }
+
+        public int GetAge 
+        {
+            get { return Age; }
+        }
 
         public Users(string Name, string Lastname, int Age)
         {
