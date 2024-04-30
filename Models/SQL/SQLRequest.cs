@@ -59,6 +59,25 @@ namespace TimeSheetAPI.Models.SQL
             return Convert.ToInt32(command.ExecuteScalar());
         }
 
+        public Users GetUserNameAndLastname(int Id_user) 
+        {
+            Users user = new Users();
+            string request = "SELECT name, lastname FROM Users WHERE Id_user = @Id_user";
+            var command = new SqlCommand(request, connection);
+            command.Parameters.AddWithValue("@Id_user", Id_user);
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    user.Name = reader.GetString(0);
+                    user.Lastname = reader.GetString(1);
+                    user.Id = Id_user;
+                }
+            }
+
+            return user;
+        }
 
 
         public void Select(ref string login, ref string password) 

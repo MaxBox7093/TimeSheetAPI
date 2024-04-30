@@ -54,7 +54,6 @@
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
                     res.value = data.userId;
-                    tempid = data.userId;
                 } else {
                     res.value = "Ошибка: " + xhr.statusText;
                 }
@@ -67,17 +66,18 @@
 
             document.getElementById('sub24').addEventListener('click', function (event) {
             event.preventDefault(); // Предотвращаем стандартное поведение кнопки submit
+            var res = document.getElementById('reslt');
+            tempid = parseInt(res.value);
             var id = tempid;
-            if (tempid != 0)
+            if (id != 0)
             {
-                fetch(`http:/localhost:8080/api/getUserInfo?id=${id}`, 
-                {
-                mode: 'cors',
+                fetch(`http://localhost:7287/api/getUserInfo?id=${id}`,
+                    {
+                mode: 'no-cors',
                 method: 'GET' 
                 }).then(function (response) {
                     return response.json();
                 }).then(function (data) {
-                    var tempres = data;
                     document.getElementById('reslt2').value = JSON.stringify(data);
                 })   
             }

@@ -8,7 +8,7 @@ namespace TimeSheetAPI.Controllers
     public class LoginAPIController : Controller
     {
         [HttpGet]
-        public IActionResult Login([FromQuery] User_login user)
+        public ActionResult Login([FromQuery] User_login user)
         {
             if (user == null)
             {

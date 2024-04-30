@@ -1,10 +1,19 @@
-﻿namespace TimeSheetAPI.Models
+﻿using TimeSheetAPI.Models.SQL;
+
+namespace TimeSheetAPI.Models
 {
     public class Users
     {
+        public int Id { get; set; }
         public string Name;
         public string Lastname;
-        public int Age;
+
+        public Users(int Id) 
+        {
+            this.Id = Id;
+        }
+
+        public Users() { }
 
         //Методы на получение значений
         public string GetName
@@ -17,16 +26,12 @@
             get { return Lastname; }
         }
 
-        public int GetAge 
+        public void GetUserInfo() 
         {
-            get { return Age; }
-        }
-
-        public Users(string Name, string Lastname, int Age)
-        {
-            this.Name = Name;
-            this.Lastname = Lastname;
-            this.Age = Age;
+            SQLRequest request = new SQLRequest();
+            var user = request.GetUserNameAndLastname(Id);
+            Name = user.Name;
+            Lastname = user.Lastname;
         }
     }
 }
