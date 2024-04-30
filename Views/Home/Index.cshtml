@@ -29,14 +29,18 @@
         <button id="sub">Сабмит!</button>
         <label for="reslt2">Результат-2</label>
         <br />
+        <br />
         <textarea id="reslt2" name="reslt2" placeholder="результат-2">
         <br />
         <br />
         <button id="sub24">Сабмит Ищо раз!</button>
+        <br />
+        <br />
     </div>
 
     <script>
-        document.getElementById('sub').addEventListener('click', function (event) {
+            var tempid = 0;
+            document.getElementById('sub').addEventListener('click', function (event) {
             event.preventDefault(); // Предотвращаем стандартное поведение кнопки submit
 
             var lg = document.getElementById('login').value;
@@ -50,6 +54,7 @@
                 if (xhr.status === 200) {
                     var data = JSON.parse(xhr.responseText);
                     res.value = data.userId;
+                    tempid = data.userId;
                 } else {
                     res.value = "Ошибка: " + xhr.statusText;
                 }
@@ -62,17 +67,24 @@
 
             document.getElementById('sub24').addEventListener('click', function (event) {
             event.preventDefault(); // Предотвращаем стандартное поведение кнопки submit
-            var id = document.getElementById('reslt').value;
-            fetch(`http:/localhost:8080/api/getUserInfo?id=${id}`, 
+            var id = tempid;
+            if (tempid != 0)
             {
-            mode: 'cors',
-            method: 'GET' 
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                var tempres = data;
-                document.getElementById('reslt2').value = JSON.stringify(data);
-            })   
+                fetch(`http:/localhost:8080/api/getUserInfo?id=${id}`, 
+                {
+                mode: 'cors',
+                method: 'GET' 
+                }).then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    var tempres = data;
+                    document.getElementById('reslt2').value = JSON.stringify(data);
+                })   
+            }
+            else
+            {
+                 document.getElementById('reslt2').value = "ЕГГОГ, БЛИН!";
+            }
         });
     </script>
 </body>
