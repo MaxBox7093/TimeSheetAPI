@@ -27,6 +27,12 @@
         <br />
         <br />
         <button id="sub">Сабмит!</button>
+        <label for="reslt2">Результат-2</label>
+        <br />
+        <textarea id="reslt2" name="reslt2" placeholder="результат-2">
+        <br />
+        <br />
+        <button id="sub24">Сабмит Ищо раз!</button>
     </div>
 
     <script>
@@ -52,6 +58,21 @@
                 res.value = "Ошибка сети";
             };
             xhr.send();
+        });
+
+            document.getElementById('sub24').addEventListener('click', function (event) {
+            event.preventDefault(); // Предотвращаем стандартное поведение кнопки submit
+            var id = document.getElementById('reslt').value;
+            fetch(`http:/localhost:8080/api/getUserInfo?id=${id}`, 
+            {
+            mode: 'cors',
+            method: 'GET' 
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                var tempres = data;
+                document.getElementById('reslt2').value = JSON.stringify(data);
+            })   
         });
     </script>
 </body>
