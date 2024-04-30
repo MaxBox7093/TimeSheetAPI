@@ -71,9 +71,9 @@
             var id = tempid;
             if (id != 0)
             {
-                fetch(`http://localhost:7287/api/getUserInfo?id=${id}`,
+                fetch(`https://localhost:7287/api/getUserInfo?id=${id}`,
                     {
-                mode: 'no-cors',
+                mode: 'cors',
                 method: 'GET' 
                 }).then(function (response) {
                     return response.json();
