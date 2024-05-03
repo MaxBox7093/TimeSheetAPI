@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace TimeSheetAPI.Models.SQL
 {
     public class SQLRequest: SQLConnection
@@ -14,6 +15,9 @@ namespace TimeSheetAPI.Models.SQL
         //Регистрация пользователя в DB
         public void InsertRegistrationUser()
         {
+            //Транзакция для отслеживания состояния выполнения нескольких запросов
+            SqlTransaction transaction = connection.BeginTransaction();
+
             try 
             {
                 string name = "Супер";
@@ -22,7 +26,6 @@ namespace TimeSheetAPI.Models.SQL
                 string login = "Admin";
                 string password = "0000";
 
-                SqlTransaction transaction = connection.BeginTransaction();
 
                 // Вставка записи в User
                 string insertTable1Query = "INSERT INTO Users (name, lastname) VALUES (@name, @lastname); SELECT SCOPE_IDENTITY();";
@@ -44,12 +47,15 @@ namespace TimeSheetAPI.Models.SQL
                 Console.WriteLine("Транзакция выполнена успешно.");
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine("Ошибка добавления пользователя\n" + ex.Message);
+                // В случае ошибки откатываем транзакцию
+                transaction.Rollback();
+                Console.WriteLine("Ошибка при выполнении транзакции: " + ex.Message);
             }
         }
 
+        //Получение id пользователся по логину и паролю
         public int GetUserId(string login, string password) 
         {
             string request = "SELECT Id_user_lg FROM Users_login WHERE login = @Login AND password = @Password";
@@ -59,10 +65,12 @@ namespace TimeSheetAPI.Models.SQL
             return Convert.ToInt32(command.ExecuteScalar());
         }
 
+        //Получение имени и фамилии по id
+        //Возвращает объект User с входным id
         public Users GetUserNameAndLastname(int Id_user) 
         {
             Users user = new Users();
-            string request = "SELECT name, lastname FROM Users WHERE Id_user = @Id_user";
+            string request = "INSERT INTO ";
             var command = new SqlCommand(request, connection);
             command.Parameters.AddWithValue("@Id_user", Id_user);
 
@@ -77,12 +85,6 @@ namespace TimeSheetAPI.Models.SQL
             }
 
             return user;
-        }
-
-
-        public void Select(ref string login, ref string password) 
-        {
-            string sqlExpression = $"SELECT name, lastname FROM Users WHERE login == {login} AND password == {password}";
         }
     }
 }
