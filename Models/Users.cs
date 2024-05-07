@@ -28,7 +28,7 @@ namespace TimeSheetAPI.Models
 
         public void GetUserInfo() 
         {
-            SQLRequest request = new SQLRequest();
+            SQLRequestUser request = new SQLRequestUser();
             var user = request.GetUserNameAndLastname(Id);
             Name = user.Name;
             Lastname = user.Lastname;

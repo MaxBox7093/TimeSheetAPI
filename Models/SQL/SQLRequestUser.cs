@@ -3,11 +3,11 @@ using Newtonsoft.Json.Linq;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace TimeSheetAPI.Models.SQL
 {
-    public class SQLRequest: SQLConnection
+    public class SQLRequestUser: SQLConnection
     {
         private SqlConnection connection;
 
-        public SQLRequest() 
+        public SQLRequestUser() 
         {
             connection = ConnectionDB();
         }
@@ -70,7 +70,7 @@ namespace TimeSheetAPI.Models.SQL
         public Users GetUserNameAndLastname(int Id_user) 
         {
             Users user = new Users();
-            string request = "INSERT INTO ";
+            string request = "SELECT name, lastname FROM Users WHERE Id_user = @Id_user";
             var command = new SqlCommand(request, connection);
             command.Parameters.AddWithValue("@Id_user", Id_user);
 

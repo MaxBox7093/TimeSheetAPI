@@ -10,7 +10,7 @@ namespace TimeSheetAPI.Models
 
         public bool RequestGetIdUser() 
         {
-            SQLRequest request = new SQLRequest();
+            SQLRequestUser request = new SQLRequestUser();
             this.Id = request.GetUserId(login, password);
             if (this.Id != 0)
                 return true;
