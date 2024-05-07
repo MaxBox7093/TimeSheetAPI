@@ -12,6 +12,7 @@ namespace TimeSheetAPI
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages(options => options.RootDirectory = "/Views");
 
             var app = builder.Build();
 

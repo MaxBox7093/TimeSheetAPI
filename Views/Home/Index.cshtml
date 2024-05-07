@@ -4,88 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeSheetAPI</title>
+    <link href="/css/allstyle.css" rel="stylesheet" />
 </head>
 <body>
     <div class="container c1">
         <div id="textregcon">
             <h1>Авторизация</h1>
-            <br />
+            <br/>
             <form id="loginForm" method="GET">
                 <label for="login">Логин</label>
-                <br />
-                <input type="text" id="login" name="login" placeholder="введите логин пользователя">
-                <br />
+                <br/>
+                <input type="text" id="login" name="login" placeholder="введите логин">
+                <br/>
                 <label for="pswd">Пароль</label>
-                <br />
-                <input type="password" id="pswd" name="password" placeholder="введите пароль пользователя">
+                <br/>
+                <input type="password" id="pswd" name="password" placeholder="введите пароль">
             </form>
+            <div id="btnhldr1">
+                <button id="sub">Войти</button>
+            </div>
+            <br/>
         </div>
-        <br />
-        <label for="reslt">Результат</label>
-        <br />
-        <input type="text" id="reslt" name="reslt" placeholder="результат (id)">
-        <br />
-        <br />
-        <button id="sub">Сабмит!</button>
-        <label for="reslt2">Результат-2</label>
-        <br />
-        <br />
-        <textarea id="reslt2" name="reslt2" placeholder="результат-2"></textarea>
-        <br />
-        <br />
-        <button id="sub24">Сабмит Ищо раз!</button>
-        <br />
-        <br />
     </div>
-
-    <script>
-            var tempid = 0;
-            document.getElementById('sub').addEventListener('click', function (event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение кнопки submit
-
-            var lg = document.getElementById('login').value;
-            var ps = document.getElementById('pswd').value;
-            var res = document.getElementById('reslt');
-
-            // Отправляем запрос на сервер
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', `https://localhost:7287/api/login?login=${lg}&password=${ps}`, true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    res.value = data.userId;
-                } else {
-                    res.value = "Ошибка: " + xhr.statusText;
-                }
-            };
-            xhr.onerror = function () {
-                res.value = "Ошибка сети";
-            };
-            xhr.send();
-        });
-
-            document.getElementById('sub24').addEventListener('click', function (event) {
-            event.preventDefault(); // Предотвращаем стандартное поведение кнопки submit
-            var res = document.getElementById('reslt');
-            tempid = parseInt(res.value);
-            var id = tempid;
-            if (id != 0)
-            {
-                fetch(`https://localhost:7287/api/getUserInfo?id=${id}`,
-                    {
-                mode: 'cors',
-                method: 'GET' 
-                }).then(function (response) {
-                    return response.json();
-                }).then(function (data) {
-                    document.getElementById('reslt2').value = JSON.stringify(data);
-                })   
-            }
-            else
-            {
-                 document.getElementById('reslt2').value = "ЕГГОГ, БЛИН!";
-            }
-        });
-    </script>
+    <script src = "/js/authpagescript.js"></script>
 </body>
 </html>
