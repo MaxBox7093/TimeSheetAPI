@@ -96,7 +96,7 @@ input {
 
 #sub {
     margin: 0;
-    padding: 2px;
+    padding: 4px;
     font-size: medium;
     font-weight: bold;
     text-align: center;
@@ -106,6 +106,13 @@ input {
     border-width: 2px;
     border-color: rgb(62, 180, 137);
     border-radius: 10px;
-    width: 5vw;
-    height: fit-content;
+    text-decoration: none;
 }
+
+    #sub:active,
+    #sub:focus,
+    #sub:hover {
+        text-decoration: none;
+        outline: none !important;
+        -webkit-tap-highlight-color: transparent;
+    }

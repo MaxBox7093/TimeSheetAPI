@@ -5,7 +5,6 @@ document.getElementById('sub').addEventListener('click', function (event) {
 
     var lg = document.getElementById('login').value;
     var ps = document.getElementById('pswd').value;
-    var res = document.getElementById('reslt');
 
 
     var xhr = new XMLHttpRequest();
@@ -16,15 +15,20 @@ document.getElementById('sub').addEventListener('click', function (event) {
             id = data.userId;
             console.log(id)
         } else {
-            res.value = "Ошибка: " + xhr.statusText;
+            id = 0;
+            alert("Произошла ошибка при запросе на сервер");
         }
 
         if (id != 0) {
-            //переходим на другую страницу
+            window.location.href = `/Home/HP?usrid=${id}`;
+        }
+        else {
+            alert("Пользователь с такими данными не найден");
         }
     };
     xhr.onerror = function () {
-        res.value = "Ошибка сети";
+        id = 0;
+        alert("Произошла ошибка при запросе на сервер");
     };
     xhr.send();
 });

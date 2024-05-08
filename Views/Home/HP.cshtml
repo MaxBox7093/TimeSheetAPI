@@ -1,4 +1,38 @@
 ﻿@page
 @model TimeSheetAPI.Views.Home.HPModel
 @{
+    <head>
+        <link href="/css/hpstyle.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="header">
+            <div class="usrdt">
+                <img id="usrimg" src="/img/ava.png" alt="UserName:Fjord">
+                <p id="usrnm"></p>
+            </div>
+            <div class="menustrip">
+                <div class="menubtn" id="mb1">
+                    <p class="menutext" id="mbt1">Редактирование</p>
+                </div>
+                <div class="menubtn" id="mb2">
+                    <p class="menutext" id="mbt2">Просмотр</p>
+                </div>
+            </div>
+        </div>
+        <div class="maindiv">
+            <div class="maincontent" id="edit">
+                <div class="holder" id="prjhld">
+        
+                </div>
+                <div id="btnhldr">
+                    <button class="ctrlbtn" id="add">Добавить</button>
+                    <button class="ctrlbtn" id="alt">Изменить</button>
+                    <button class="ctrlbtn" id="del">Удалить</button>
+                </div>
+            </div>
+                <div class="maincontent" id="browse">
+                </div>
+        </div>
+        <script src="/js/hpscript.js"></script>
+    </body>
 }
