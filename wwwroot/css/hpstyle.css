@@ -75,7 +75,7 @@
 .menubtn {
     display: flex;
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     border-color: rgb(162,162,208);
     height: 100%;
     width: fit-content;
@@ -104,7 +104,7 @@
     border-color: rgb(172,229,238);
 }
 
-#prjhld {
+#prjhlde, #prjhldb {
     margin: 0;
     padding: 4px;
     display: flex;
@@ -116,7 +116,7 @@
     border-style: solid;
     border-width: 2px;
     border-color: darkcyan;
-    border-radius: 10px;
+    border-radius: 0 0 10px 10px;
 }
 
 #btnhldr {
@@ -152,6 +152,12 @@
     color: rgb(130,111,76);
 }
 
+#desel {
+    background-color: rgb(175,218,252);
+    border-color: rgb(117,117,150);
+    color: rgb(117,117,150);
+}
+
 #del {
     background-color: rgb(255,240,245);
     border-color: rgb(228,113,122);
@@ -166,3 +172,100 @@
     display: none;
 }
 
+#adddial, #chngdial {
+    display: none;
+    z-index: 9999;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: floralwhite;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 20px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 0;
+    padding: 6px;
+}
+
+#dialnm {
+    font-size: larger;
+    font-weight: bold;
+    margin: 2px;
+}
+
+#prjnm, #prjcd, #cprjnm, #cprjcd {
+    border-radius: 0;
+    border-width: 1px;
+}
+
+#adb, #cdb {
+    border-width: 1px;
+}
+
+.pjc {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background-color: transparent;
+    border-bottom-style: solid;
+    border-width: 2px;
+    border-color: darkcyan;
+    justify-content: space-between;
+    align-content: center;
+    text-align: center;
+}
+    .pjc:last-child {
+        border-bottom-style: none;
+    }
+
+.pjtxt {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border-right-style: solid;
+    border-width: 2px;
+    border-color: darkcyan;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.pjtxt:last-child {
+    border-right-style: none;
+}
+
+.tabtitle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background-color: rgb(220, 220, 220);
+    border-style: solid solid none solid;
+    border-width: 2px;
+    border-color: darkcyan;
+    border-radius: 10px 10px 0 0;
+    justify-content: space-between;
+    align-content: center;
+    text-align: center;
+}
+
+.tt {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border-right-style: solid;
+    border-width: 2px;
+    border-color: darkcyan;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+    .tt:last-child {
+        border-right-style: none;
+    }

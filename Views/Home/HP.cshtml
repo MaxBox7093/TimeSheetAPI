@@ -20,17 +20,59 @@
             </div>
         </div>
         <div class="maindiv">
+            <div id="adddial">
+                <p id="dialnm">Добавление проекта</p>
+                <label for="prjnm">Название</label>
+                <input type="text" id="prjnm" min="1" max="150"/>
+                <label for="prjcd">Код</label>
+                <input type="number" id="prjcd" min="1" />
+                <div id="btnhldr">
+                    <button class="ctrlbtn" id="adb">Добавить</button>
+                    <button class="ctrlbtn" id="cdb">Отмена</button>
+                </div>
+            </div>
+            <div id="chngdial">
+                <p id="dialnm">Изменение проекта проекта</p>
+                <label for="cprjnm">Название</label>
+                <input type="text" id="cprjnm" min="1" max="150" />
+                <label for="cprjcd">Код</label>
+                <input type="number" id="cprjcd" min="1" readonly/>
+                <fieldset id="slct">
+                    <legend>Активность проекта</legend>
+                    <input type="radio" id="ctrue" name="iap" value="true" checked/>
+                    <label for="true">Активный</label>
+                    <input type="radio" id="cfalse" name="iap" value="false"/>
+                    <label for="false">Неактивный</label>
+                </fieldset>
+
+                <div id="btnhldr">
+                    <button class="ctrlbtn" id="cngdb">Подтвердить</button>
+                    <button class="ctrlbtn" id="ccdb">Отмена</button>
+                </div>
+            </div>
             <div class="maincontent" id="edit">
-                <div class="holder" id="prjhld">
-        
+                <div class="tabtitle">
+                    <div class="tt">Код</div>
+                    <div class="tt">Название</div>
+                    <div class="tt">Активность</div>
+                </div>
+                <div class="holder" id="prjhlde">  
                 </div>
                 <div id="btnhldr">
                     <button class="ctrlbtn" id="add">Добавить</button>
                     <button class="ctrlbtn" id="alt">Изменить</button>
+                    <button class="ctrlbtn" id="desel">Deselect</button>
                     <button class="ctrlbtn" id="del">Удалить</button>
                 </div>
             </div>
                 <div class="maincontent" id="browse">
+                <div class="tabtitle">
+                    <div class="tt">Код</div>
+                    <div class="tt">Название</div>
+                    <div class="tt">Активность</div>
+                </div>
+                    <div class="holder" id="prjhldb">
+                    </div>
                 </div>
         </div>
         <script src="/js/hpscript.js"></script>
