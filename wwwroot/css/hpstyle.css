@@ -291,6 +291,7 @@
     text-align: center;
     flex-grow: 1;
     flex-basis: 0;
+    cursor: pointer;
 }
 
     .pjtxt:last-child, .ttxt:last-child, .tmtxt:last-child {

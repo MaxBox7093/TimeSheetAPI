@@ -21,12 +21,12 @@ var ondeltask = -1;
 var ondeltime = -1;
 
 var projname = '';
-
 var taskname = '';
 
 window.onload = function () {
     fetchName(id);
     pgslct = 1;
+    proj = [];
     bind();
     chngpg(1);
     if (tabselect == 1) {
@@ -243,6 +243,7 @@ document.getElementById('editback').addEventListener('click', function () {
     tabselect = 1;
     ondel = -1;
     ondeltask = -1;
+    task = [];
     loadtab(1);
     setProjs(1);
     location.reload();
@@ -418,6 +419,7 @@ document.getElementById('timeeditback').addEventListener('click', function () {
     tabselect = 2;
     ondeltime = -1;
     ondeltask = -1;
+    time = [];
     loadtab(2);
     setTask(1);
 })
@@ -428,26 +430,41 @@ document.getElementById('timeadd').addEventListener('click', function () {
 
 document.getElementById('tsadb').addEventListener('click', function () {
     document.getElementById('addtime').style.display = 'none';
-
-
+    let nm = document.getElementById('timenm').value;
+    let time = document.getElementById('timetime').value;
+    let date = document.getElementById('timedate').value;
+    fetchPostTime(date, time, nm, 1);
+    document.getElementById('timenm').value = '';
+    document.getElementById('timetime').value = '';
+    document.getElementById('timedate').value = '2022-02-04';
 })
 
 document.getElementById('tscdb').addEventListener('click', function () {
     document.getElementById('addtime').style.display = 'none';
+    document.getElementById('timenm').value = '';
+    document.getElementById('timetime').value = '';
+    document.getElementById('timedate').value = '2022-02-04';
 })
 
 document.getElementById('timealt').addEventListener('click', function () {
     if (ondeltime != -1) {
-        document.getElementById('chngtime').style.display = 'inline-flex';
         let tmp = time[ondeltime];
-        
+        document.getElementById('ctimenm').value = tmp.description;
+        document.getElementById('ctimetime').value = tmp.time;
+        document.getElementById('ctimedate').value = tmp.date;
+        document.getElementById('chngtime').style.display = 'inline-flex';
     }
-
 })
 
 document.getElementById('ctscngdb').addEventListener('click', function () {
+    let nm = document.getElementById('ctimenm').value;
+    let dt = document.getElementById('ctimedate').value;
+    let tm = document.getElementById('ctimetime').value;
+    fetchPatchTime(ondeltime, time[ondeltime].id, nm, tm, dt, 1);
     document.getElementById('chngtime').style.display = 'none';
-    /*!*/
+    document.getElementById('ctimenm').value = '';
+    document.getElementById('ctimetime').value = '';
+    document.getElementById('ctimedate').value = '2022-02-04';
     ondeltime = -1;
     for (let i = 0; i < time.length; i++) {
         document.getElementById('tm' + i).style.backgroundColor = 'transparent';
@@ -456,6 +473,9 @@ document.getElementById('ctscngdb').addEventListener('click', function () {
 
 document.getElementById('ctscdb').addEventListener('click', function () {
     document.getElementById('chngtask').style.display = 'none';
+    document.getElementById('ctimenm').value = '';
+    document.getElementById('ctimetime').value = '';
+    document.getElementById('ctimedate').value = '2022-02-04';
     ondeltime = -1;
     for (let i = 0; i < time.length; i++) {
         document.getElementById('tm' + i).style.backgroundColor = 'transparent';
@@ -466,7 +486,7 @@ document.getElementById('timedel').addEventListener('click', function () {
 
     if (ondeltime != -1) {
         if (confirm("Вы действительно хотите удалить эту задачу?")) {
-   /*!*/
+            fetchDelTime(time[ondeltime].id, ondeltime)
         }
         else {
             for (let i = 0; i < task.length; i++) {
@@ -485,7 +505,6 @@ document.getElementById('timedesel').addEventListener('click', function () {
 })
 
 function fetchTime(tid, il) {
-    console.log(pc);
     fetch(`https://localhost:7287/api/timeSheet?id_task=${tid}`,
         {
             mode: 'cors',
@@ -498,7 +517,7 @@ function fetchTime(tid, il) {
         for (let tmp in data) {
             let tt = {};
             tt.id = data[tmp].id;
-            tt.date = data[tmp].date;
+            tt.date = convertDate(data[tmp].date, 1);
             tt.time = data[tmp].time;
             tt.description = data[tmp].description;
             tt.taskref = data[tmp].ts_ref;
@@ -518,7 +537,7 @@ function fetchPostTime(dt, tm, nm, il) {
             if (!nm) {
                 alert("Отсутствует описание проводки");
             } else {
-                let prj = { date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id};
+                let prj = { date: convertDate(dt, 2), time: tm, description: nm, ts_ref: task[ondeltask].id};
                 fetch(`https://localhost:7287/api/timeSheet`,
                     {
                         mode: 'cors',
@@ -554,7 +573,7 @@ function fetchPatchTime(tidd, id0, nm, tm, dt, il) {
             if (!nm) {
                 alert("Отсутствует описание проводки");
             } else {
-                let tsk = { id: id0, date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id };
+                let tsk = { id: id0, date: convertDate(dt, 2), time: tm, description: nm, ts_ref: task[ondeltask].id };
                 fetch(`https://localhost:7287/api/timeSheet`,
                     {
                         mode: 'cors',
@@ -575,7 +594,7 @@ function fetchPatchTime(tidd, id0, nm, tm, dt, il) {
 }
 
 function fetchDelTime(tidd, id0) {
-    fetch(`https://localhost:7287/api/timeSheet?id_ts${tidd}`,
+    fetch(`https://localhost:7287/api/timeSheet?id_ts=${tidd}`,
         {
             mode: 'cors',
             method: 'DELETE'
@@ -667,7 +686,7 @@ function bindDelTab() {
         elements[j].addEventListener('dblclick', function () {
             tabselect = 3;
             taskname = task[Number(this.parentNode.id.replace('t', ''))].name;
-
+            fetchTime(task[ondeltask].id, 1);
             loadtab(tabselect);
         });
     }
@@ -679,7 +698,7 @@ function bindDelTime() {
     for (let j = 0; j < elements.length; j++) {
         elements[j].addEventListener('click', function () {
             let tid = this.parentNode.id.replace('tm', '');
-            ondeltask = Number(tid);
+            ondeltime = Number(tid);
             for (let i = 0; i < time.length; i++) {
                 document.getElementById('tm' + i).style.backgroundColor = 'transparent';
             }
@@ -700,7 +719,7 @@ function setTime(il) {
         let td3 = document.createElement('div');
 
         td1.innerHTML = time[i].description;
-        td2.innerHTML = time[i].date;
+        td2.innerHTML = convertDate(time[i].date, 2);
         td3.innerHTML = time[i].time;
 
         td1.classList.add('tmtxt');
@@ -794,4 +813,14 @@ function chngpg(il) {
         document.getElementById('main1').style.display = 'none';
         document.getElementById('main2').style.display = 'flex';
     }
+}
+
+function convertDate(date, direction) {
+    if (direction == 1) {
+        date = date.split('.').reverse().join('-');
+    } else if (direction == 2) {
+        date = date.split('-').reverse().join('.');
+    }
+    console.log(date);
+    return date;
 }
