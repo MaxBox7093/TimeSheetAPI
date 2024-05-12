@@ -19,120 +19,154 @@
                 </div>
             </div>
         </div>
-        <!--Проект и всё, что с ним связано-->
-        <div class="maindiv" id="mainproj">
-            <div class="adddial" id="addproj">
-                <p id="dialnm">Добавление проекта</p>
-                <label for="prjnm">Название</label>
-                <input type="text" id="prjnm" min="1" max="150"/>
-                <label for="prjcd">Код</label>
-                <input type="number" id="prjcd" min="1" />
-                <div id="btnhldr">
-                    <button class="ctrlbtn" id="adb">Добавить</button>
-                    <button class="ctrlbtn" id="cdb">Отмена</button>
-                </div>
-            </div>
-            <div class="chngdial" id="chngproj">
-                <p id="dialnm">Изменение проекта</p>
-                <label for="cprjnm">Название</label>
-                <input type="text" id="cprjnm" min="1" max="150" />
-                <label for="cprjcd">Код</label>
-                <input type="number" id="cprjcd" min="1"/>
-                <fieldset id="slct">
-                    <legend>Активность проекта</legend>
-                    <input type="radio" id="ctrue" name="iap" value="true" checked/>
-                    <label for="true">Активный</label>
-                    <input type="radio" id="cfalse" name="iap" value="false"/>
-                    <label for="false">Неактивный</label>
-                </fieldset>
-
-                <div id="btnhldr">
-                    <button class="ctrlbtn" id="cngdb">Подтвердить</button>
-                    <button class="ctrlbtn" id="ccdb">Отмена</button>
-                </div>
-            </div>
-            <div class="maincontent" id="edit">
-                <div class="tabtitle">
-                    <div class="tt">Код</div>
-                    <div class="tt">Название</div>
-                    <div class="tt">Активность</div>
-                </div>
-                <div class="holder" id="prjhlde">  
-                </div>
-                <div id="btnhldr">
-                    <button class="ctrlbtn" id="add">Добавить</button>
-                    <button class="ctrlbtn" id="alt">Изменить</button>
-                    <button class="ctrlbtn" id="desel">Deselect</button>
-                    <button class="ctrlbtn" id="del">Удалить</button>
-                </div>
-            </div>
-                <div class="maincontent" id="browse">
-                <div class="tabtitle">
-                    <div class="tt">Код</div>
-                    <div class="tt">Название</div>
-                    <div class="tt">Активность</div>
-                </div>
-                    <div class="holder" id="prjhldb">
+        <!--Страница редактирования-->
+        <div class="main" id="main1">
+            <!--Проект и всё, что с ним связано-->
+            <div class="maindiv" id="mainproj">
+                <div class="adddial" id="addproj">
+                    <p id="dialnm">Добавление проекта</p>
+                    <label for="prjnm">Название</label>
+                    <input type="text" id="prjnm" min="1" max="150" />
+                    <label for="prjcd">Код</label>
+                    <input type="number" id="prjcd" min="1" />
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="adb">Добавить</button>
+                        <button class="ctrlbtn" id="cdb">Отмена</button>
                     </div>
                 </div>
+                <div class="chngdial" id="chngproj">
+                    <p id="dialnm">Изменение проекта</p>
+                    <label for="cprjnm">Название</label>
+                    <input type="text" id="cprjnm" min="1" max="150" />
+                    <label for="cprjcd">Код</label>
+                    <input type="number" id="cprjcd" min="1" />
+                    <fieldset id="slct">
+                        <legend>Активность проекта</legend>
+                        <input type="radio" id="ctrue" name="iap" value="true" checked />
+                        <label for="true">Активный</label>
+                        <input type="radio" id="cfalse" name="iap" value="false" />
+                        <label for="false">Неактивный</label>
+                    </fieldset>
+
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="cngdb">Подтвердить</button>
+                        <button class="ctrlbtn" id="ccdb">Отмена</button>
+                    </div>
+                </div>
+                <div class="maincontent" id="edit">
+                    <div class="tabtitle">
+                        <div class="tt">Код</div>
+                        <div class="tt">Название</div>
+                        <div class="tt">Активность</div>
+                    </div>
+                    <div class="holder" id="prjhlde">
+                    </div>
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="add">Добавить</button>
+                        <button class="ctrlbtn" id="alt">Изменить</button>
+                        <button class="ctrlbtn" id="desel">Deselect</button>
+                        <button class="ctrlbtn" id="del">Удалить</button>
+                    </div>
+                </div>                
+            </div>
+            <!--Задача и всё, что с ней связано-->
+            <div class="maindiv" id="maintask">
+                <div class="adddial" id="addtask">
+                    <p id="dialnm">Добавление задачи</p>
+                    <label for="tsknm">Название</label>
+                    <input type="text" id="tsknm" min="1" max="150" />
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="tadb">Добавить</button>
+                        <button class="ctrlbtn" id="tcdb">Отмена</button>
+                    </div>
+                </div>
+                <div class="chngdial" id="chngtask">
+                    <p id="dialnm">Изменение задачи</p>
+                    <label for="ctsk">Название</label>
+                    <input type="text" id="ctsk" min="1" max="150" />
+                    <fieldset id="slct">
+                        <legend>Активность задачи</legend>
+                        <input type="radio" id="ttrue" name="iat" value="true" checked />
+                        <label for="true">Активная</label>
+                        <input type="radio" id="tfalse" name="iat" value="false" />
+                        <label for="false">Неактивная</label>
+                    </fieldset>
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="tcngdb">Подтвердить</button>
+                        <button class="ctrlbtn" id="tccdb">Отмена</button>
+                    </div>
+                </div>
+                <div class="maincontent" id="tedit">
+                    <div id="backbtn">
+                        <button class="ctrlbtn" id="editback">🔙</button>
+                        <p id="tpjnmmain"></p>
+                    </div>
+                    <div class="tabtitle">
+                        <div class="tt">Название</div>
+                        <div class="tt">Активность</div>
+                    </div>
+                    <div class="holder" id="thlde">
+                    </div>
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="tadd">Добавить</button>
+                        <button class="ctrlbtn" id="talt">Изменить</button>
+                        <button class="ctrlbtn" id="tdesel">Deselect</button>
+                        <button class="ctrlbtn" id="tdel">Удалить</button>
+                    </div>
+                </div>
+            </div>
+            <!--Проводка и всё, что с ней связано-->
+            <div class="maindiv" id="maintime">
+                <div class="adddial" id="addtime">
+                    <p id="dialnm">Добавление проводки</p>
+                    <label for="timenm">Описание</label>
+                    <input type="text" id="timenm" min="1" max="150" />
+                    <label for="timetime">Количество часов</label>
+                    <input type="number" id="timetime" min="0" max="24" />
+                    <label for="timedate">Дата проводки</label>
+                    <input type="date" id="timedate" value="2022-02-04" min="2012-01-01" max="2100-12-31"/>
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="tsadb">Добавить</button>
+                        <button class="ctrlbtn" id="tscdb">Отмена</button>
+                    </div>
+                </div>
+                <div class="chngdial" id="chngtime">
+                    <p id="dialnm">Изменение проводки</p>
+                    <label for="ctsk">Название</label>
+                    <input type="text" id="ctimenm" min="1" max="150" />
+                    <label for="ctimetime">Количество часов</label>
+                    <input type="number" id="ctimetime" min="0" max="24" />
+                    <label for="ctimedate">Дата проводки</label>
+                    <input type="date" id="ctimedate" value="2022-02-04" min="2012-01-01" max="2100-12-31" />
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="ctscngdb">Подтвердить</button>
+                        <button class="ctrlbtn" id="ctscdb">Отмена</button>
+                    </div>
+                </div>
+                <div class="maincontent" id="timeedit">
+                    <div id="backbtn">
+                        <button class="ctrlbtn" id="timeeditback">🔙</button>
+                        <p id="tpjnmmain2"></p>
+                        <p id="ttsnmmain"></p>
+                    </div>
+                    <div class="tabtitle">
+                        <div class="tt">Описание</div>
+                        <div class="tt">Дата проводки</div>
+                        <div class="tt">Количество часов</div>
+                    </div>
+                    <div class="holder" id="timehlde">
+                    </div>
+                    <div id="btnhldr">
+                        <button class="ctrlbtn" id="timeadd">Добавить</button>
+                        <button class="ctrlbtn" id="timealt">Изменить</button>
+                        <button class="ctrlbtn" id="timedesel">Deselect</button>
+                        <button class="ctrlbtn" id="timedel">Удалить</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!--Задача и всё, что с ней связано-->
-        <div class="maindiv" id="maintask">
-            <div class="adddial" id="addtask">
-                <p id="dialnm">Добавление задачи</p>
-                <label for="tsknm">Название</label>
-                <input type="text" id="tsknm" min="1" max="150" />
-                <div id="btnhldr">
-                    <button class="ctrlbtn" id="tadb">Добавить</button>
-                    <button class="ctrlbtn" id="tcdb">Отмена</button>
-                </div>
-            </div>
-            <div class="chngdial" id="chngtask">
-                <p id="dialnm">Изменение задачи</p>
-                <label for="ctsk">Название</label>
-                <input type="text" id="ctsk" min="1" max="150" />
-                <fieldset id="slct">
-                    <legend>Активность задачи</legend>
-                    <input type="radio" id="ttrue" name="iat" value="true" checked />
-                    <label for="true">Активная</label>
-                    <input type="radio" id="tfalse" name="iat" value="false" />
-                    <label for="false">Неактивная</label>
-                </fieldset>
-                <div id="btnhldr">
-                    <button class="ctrlbtn" id="tcngdb">Подтвердить</button>
-                    <button class="ctrlbtn" id="tccdb">Отмена</button>
-                </div>
-            </div>
-            <div class="maincontent" id="tedit">
-                <div id="backbtn">
-                    <button class="ctrlbtn" id="editback">🔙</button>
-                    <p id="tpjnmmain"></p>
-                </div>
-                <div class="tabtitle">
-                    <div class="tt">Название</div>
-                    <div class="tt">Активность</div>
-                </div>
-                <div class="holder" id="thlde">
-                </div>
-                <div id="btnhldr">
-                    <button class="ctrlbtn" id="tadd">Добавить</button>
-                    <button class="ctrlbtn" id="talt">Изменить</button>
-                    <button class="ctrlbtn" id="tdesel">Deselect</button>
-                    <button class="ctrlbtn" id="tdel">Удалить</button>
-                </div>
-            </div>
-            <div class="maincontent" id="tbrowse">
-                <div id="backbtn">
-                    <button class="ctrlbtn" id="bback">🔙</button>
-                    <p id="tpjnmmain"></p>
-                </div>
-                <div class="tabtitle">
-                    <div class="tt">Название</div>
-                    <div class="tt">Активность</div>
-                </div>
-                <div class="holder" id="thldb">
-                </div>
-            </div>
+        <!--Страница представления-->
+        <div class="main" id="main2">
         </div>
         <script src="/js/hpscript.js"></script>
     </body>

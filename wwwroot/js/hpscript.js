@@ -10,12 +10,15 @@ var proj = [];
 
 var task = [];
 
+var time = [];
+
 var pgslct = 1;
 
 var tabselect = 1;
 
 var ondel = -1;
 var ondeltask = -1;
+var ondeltime = -1;
 
 var projname = '';
 
@@ -25,7 +28,7 @@ window.onload = function () {
     fetchName(id);
     pgslct = 1;
     bind();
-    chngpg(1, tabselect);
+    chngpg(1);
     if (tabselect == 1) {
         fetchProj(id, 1);
     }
@@ -38,13 +41,13 @@ window.onload = function () {
 document.getElementById('mb1').addEventListener('click', function () {
     pgslct = 1;
     bind();
-    chngpg(1, tabselect);
+    chngpg(1);
 })
 
 document.getElementById('mb2').addEventListener('click', function () {
     pgslct = 2;
     bind();
-    chngpg(2, tabselect);
+    chngpg(2);
     
 })
 
@@ -237,14 +240,11 @@ function fetchDelProj(cdpj, id0) {
 // Задача и всё, что с ней
 
 document.getElementById('editback').addEventListener('click', function () {
-    tabselect = -1;
+    tabselect = 1;
     ondel = -1;
-    location.reload();
-})
-
-document.getElementById('bback').addEventListener('click', function () {
-    tabselect = -1;
-    ondel = -1;
+    ondeltask = -1;
+    loadtab(1);
+    setProjs(1);
     location.reload();
 })
 
@@ -412,6 +412,178 @@ function fetchDelTask(tidd, id0) {
         })
 }
 
+// Проводка и всё, что с ней
+
+document.getElementById('timeeditback').addEventListener('click', function () {
+    tabselect = 2;
+    ondeltime = -1;
+    ondeltask = -1;
+    loadtab(2);
+    setTask(1);
+})
+
+document.getElementById('timeadd').addEventListener('click', function () {
+    document.getElementById('addtime').style.display = 'inline-flex';
+})
+
+document.getElementById('tsadb').addEventListener('click', function () {
+    document.getElementById('addtime').style.display = 'none';
+
+
+})
+
+document.getElementById('tscdb').addEventListener('click', function () {
+    document.getElementById('addtime').style.display = 'none';
+})
+
+document.getElementById('timealt').addEventListener('click', function () {
+    if (ondeltime != -1) {
+        document.getElementById('chngtime').style.display = 'inline-flex';
+        let tmp = time[ondeltime];
+        
+    }
+
+})
+
+document.getElementById('ctscngdb').addEventListener('click', function () {
+    document.getElementById('chngtime').style.display = 'none';
+    /*!*/
+    ondeltime = -1;
+    for (let i = 0; i < time.length; i++) {
+        document.getElementById('tm' + i).style.backgroundColor = 'transparent';
+    }
+})
+
+document.getElementById('ctscdb').addEventListener('click', function () {
+    document.getElementById('chngtask').style.display = 'none';
+    ondeltime = -1;
+    for (let i = 0; i < time.length; i++) {
+        document.getElementById('tm' + i).style.backgroundColor = 'transparent';
+    }
+})
+
+document.getElementById('timedel').addEventListener('click', function () {
+
+    if (ondeltime != -1) {
+        if (confirm("Вы действительно хотите удалить эту задачу?")) {
+   /*!*/
+        }
+        else {
+            for (let i = 0; i < task.length; i++) {
+                document.getElementById('tm' + i).style.backgroundColor = 'transparent';
+            }
+        }
+    }
+    ondeltime = -1;
+})
+
+document.getElementById('timedesel').addEventListener('click', function () {
+    ondeltime = -1;
+    for (let i = 0; i < time.length; i++) {
+        document.getElementById('tm' + i).style.backgroundColor = 'transparent';
+    }
+})
+
+function fetchTime(tid, il) {
+    console.log(pc);
+    fetch(`https://localhost:7287/api/timeSheet?id_task=${tid}`,
+        {
+            mode: 'cors',
+            method: 'GET'
+        }
+    ).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        console.log(data);
+        for (let tmp in data) {
+            let tt = {};
+            tt.id = data[tmp].id;
+            tt.date = data[tmp].date;
+            tt.time = data[tmp].time;
+            tt.description = data[tmp].description;
+            tt.taskref = data[tmp].ts_ref;
+            time.push(tt);
+        }
+        setTime(il);
+    })
+}
+
+function fetchPostTime(dt, tm, nm, il) {
+    if (!dt) {
+        alert("Отсутствует дата проводки");
+    } else {
+        if (!tm) {
+            alert("Количество часов проводки было <= 0");
+        } else {
+            if (!nm) {
+                alert("Отсутствует описание проводки");
+            } else {
+                let prj = { date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id};
+                fetch(`https://localhost:7287/api/timeSheet`,
+                    {
+                        mode: 'cors',
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify(prj)
+                    }).then(function (response) {
+                        let mxid = 0;
+                        for (let i = 0; i < time.length; i++) {
+                            if (time[i].id >= mxid) {
+                                mxid = time[i].id;
+                            }
+                        }
+                        let tt = { id: mxid, date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id };
+                        time.push(tt);
+                        setTime(il);
+                    });
+            }
+        }
+    }
+}
+
+function fetchPatchTime(tidd, id0, nm, tm, dt, il) {
+
+    if (!dt) {
+        alert("Отсутствует дата проводки");
+    } else {
+        if (!tm) {
+            alert("Количество часов проводки было <= 0");
+        } else {
+            if (!nm) {
+                alert("Отсутствует описание проводки");
+            } else {
+                let tsk = { id: id0, date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id };
+                fetch(`https://localhost:7287/api/timeSheet`,
+                    {
+                        mode: 'cors',
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify(tsk)
+                    }).then(function (response) {
+                        let tt = { id: id0, date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id };
+                        console.log(tt);
+                        time.splice(tidd, 1, tt);
+                        setTime(il);
+                    })
+            }
+        }
+    }
+}
+
+function fetchDelTime(tidd, id0) {
+    fetch(`https://localhost:7287/api/timeSheet?id_ts${tidd}`,
+        {
+            mode: 'cors',
+            method: 'DELETE'
+        }).then(function (response) {
+            time.splice(id0, 1);
+            setTime(1);
+        })
+}
 
 //Общие функции
 
@@ -454,16 +626,27 @@ function loadtab(lt) {
     if (lt == 1) {
         ondel = -1;
         ondeltask = -1;
+        ondeltime = -1;
         document.getElementById('tpjnmmain').innerHTML = '';
         document.getElementById('mainproj').style.display = 'flex';
         document.getElementById('maintask').style.display = 'none';
+        document.getElementById('maintime').style.display = 'none';
+        setProjs(1);
     } if (lt == 2) {
         ondeltask = -1;
         document.getElementById('tpjnmmain').innerHTML = projname;
         document.getElementById('mainproj').style.display = 'none';
         document.getElementById('maintask').style.display = 'flex';
+        document.getElementById('maintime').style.display = 'none';
+        setTask(1);
     } if (lt == 3) {
-
+        ondeltime = -1;
+        document.getElementById('tpjnmmain2').innerHTML = projname;
+        document.getElementById('ttsnmmain').innerHTML = taskname;
+        document.getElementById('mainproj').style.display = 'none';
+        document.getElementById('maintask').style.display = 'none';
+        document.getElementById('maintime').style.display = 'flex';
+        setTime(1);
     }
 }
 
@@ -490,9 +673,54 @@ function bindDelTab() {
     }
 }
 
+function bindDelTime() {
+    let elements = document.getElementsByClassName('tmtxt')
+
+    for (let j = 0; j < elements.length; j++) {
+        elements[j].addEventListener('click', function () {
+            let tid = this.parentNode.id.replace('tm', '');
+            ondeltask = Number(tid);
+            for (let i = 0; i < time.length; i++) {
+                document.getElementById('tm' + i).style.backgroundColor = 'transparent';
+            }
+            document.getElementById('tm' + tid).style.backgroundColor = 'rgb(247,247,255)';
+        });
+    }
+}
+
+function setTime(il) {
+    document.getElementById('timehlde').innerHTML = '';
+    for (let i = 0; i < time.length; i++) {
+        let tmpdiv = document.createElement('div');
+        tmpdiv.classList.add('tc');
+        tmpdiv.id = `tm${i}`;
+
+        let td1 = document.createElement('div');
+        let td2 = document.createElement('div');
+        let td3 = document.createElement('div');
+
+        td1.innerHTML = time[i].description;
+        td2.innerHTML = time[i].date;
+        td3.innerHTML = time[i].time;
+
+        td1.classList.add('tmtxt');
+        td2.classList.add('tmtxt');
+        td3.classList.add('tmtxt');
+
+        tmpdiv.appendChild(td1);
+        tmpdiv.appendChild(td2);
+        tmpdiv.appendChild(td3);
+
+        if (il == 1) {
+            document.getElementById('timehlde').appendChild(tmpdiv);
+        }
+    }
+
+    bindDelTime();
+}
+
 function setTask(il) {
     document.getElementById('thlde').innerHTML = '';
-    document.getElementById('thldb').innerHTML = '';
     console.log(task);
     for (let i = 0; i < task.length; i++) {
         let tmpdiv = document.createElement('div');
@@ -516,8 +744,6 @@ function setTask(il) {
 
         if (il == 1) {
             document.getElementById('thlde').appendChild(tmpdiv);
-        } else {
-            document.getElementById('thldb').appendChild(tmpdiv);
         }
     }
 
@@ -526,7 +752,6 @@ function setTask(il) {
 
 function setProjs(il) {
     document.getElementById('prjhlde').innerHTML = '';
-    document.getElementById('prjhldb').innerHTML = '';
 
     for (let i = 0; i < proj.length; i++) {
         let tmpdiv = document.createElement('div');
@@ -554,35 +779,19 @@ function setProjs(il) {
 
         if (il == 1) {
             document.getElementById('prjhlde').appendChild(tmpdiv);
-        } else {
-            document.getElementById('prjhldb').appendChild(tmpdiv);
         }
+
     }
 
     bindDel();
 }
 
-function chngpg(il, ts) {
-    if (ts == 1) {
-        if (il == 1) {
-            document.getElementById('edit').style.display = 'flex';
-            document.getElementById('browse').style.display = 'none';
-            setProjs(il);
+function chngpg(il) {
+    if (il == 1) {
+        document.getElementById('main1').style.display = 'flex';
+        document.getElementById('main2').style.display = 'none';
         } else {
-            document.getElementById('edit').style.display = 'none';
-            document.getElementById('browse').style.display = 'flex';
-            setProjs(il);
-        }
-    }
-    if (ts == 2) {
-        if (il == 1) {
-            document.getElementById('tedit').style.display = 'flex';
-            document.getElementById('tbrowse').style.display = 'none';
-            setTask(il);
-        } else {
-            document.getElementById('tedit').style.display = 'none';
-            document.getElementById('tbrowse').style.display = 'flex';
-            setTask(il);
-        }
+        document.getElementById('main1').style.display = 'none';
+        document.getElementById('main2').style.display = 'flex';
     }
 }

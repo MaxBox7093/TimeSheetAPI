@@ -110,6 +110,14 @@
     border-color: rgb(172,229,238);
 }
 
+#main1 {
+    display: flex;
+}
+
+#main2 {
+    display: none;
+}
+
 #mainproj {
     display: flex;
 }
@@ -118,7 +126,11 @@
     display: none;
 }
 
-#prjhlde, #prjhldb, #thlde, #thldb {
+#maintime {
+    display: none;
+}
+
+#prjhlde, #thlde, #timehlde {
     margin: 0;
     padding: 4px;
     display: flex;
@@ -150,39 +162,39 @@
     font-weight: bold;
     text-align: center;
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     border-radius: 10px;
 }
 
-#add, #tadd {
+#add, #tadd, #timeadd {
     background-color: rgb(236,234,190);
     border-color: rgb(93,155,155);
     color: rgb(93,155,155);
 }
 
-#alt, talt {
+#alt, #talt, #timealt {
     background-color: rgb(229,228,226);
     border-color: rgb(130,111,76);
     color: rgb(130,111,76);
 }
 
-#desel, #tdesel {
+#desel, #tdesel, #timedesel {
     background-color: rgb(175,218,252);
     border-color: rgb(117,117,150);
     color: rgb(117,117,150);
 }
 
-#del, #tdel {
+#del, #tdel, #timedel {
     background-color: rgb(255,240,245);
     border-color: rgb(228,113,122);
     color: rgb(228,113,122);
 }
 
-#edit, #tedit {
+#edit, #tedit, #timeedit {
     display: flex;
 }
 
-#browse, #tbrowse {
+#browse, #tbrowse, #timebrowse {
     display: none;
 }
 
@@ -209,12 +221,8 @@
     margin: 2px;
 }
 
-#prjnm, #prjcd, #cprjnm, #cprjcd, #tsknm, #tpcd, #ctsk, #ctpcd {
+#prjnm, #prjcd, #cprjnm, #cprjcd, #tsknm, #tpcd, #ctsk, #ctpcd, #timenm, #ctimenm, #timetime, #ctimetime {
     border-radius: 0;
-    border-width: 1px;
-}
-
-#adb, #cdb, #tadb, #tcdb, #cngdb, #ccdb, #tcngdb, #tccdb #editback, #bback {
     border-width: 1px;
 }
 
@@ -238,7 +246,7 @@
     background-color: rgb(111, 111, 142, 0.1);
 }
 
-#bback, #editback {
+#bback, #editback, #timeeditback {
     border-width: 2px;
     border-color: cadetblue;
     color: cadetblue;
@@ -250,7 +258,7 @@
     padding: 2px;
 }
 
-#tpjnmmain {
+#tpjnmmain, #ttsnmmain {
     font-size: larger;
     font-weight: bolder;
 }
@@ -271,7 +279,7 @@
         border-bottom-style: none;
     }
 
-.pjtxt, .ttxt {
+.pjtxt, .ttxt, .tmtxt {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -285,7 +293,7 @@
     flex-basis: 0;
 }
 
-    .pjtxt:last-child, .ttxt:last-child {
+    .pjtxt:last-child, .ttxt:last-child, .tmtxt:last-child {
         border-right-style: none;
     }
 
