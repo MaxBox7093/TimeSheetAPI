@@ -43,9 +43,9 @@
                     <fieldset id="slct">
                         <legend>Активность проекта</legend>
                         <input type="radio" id="ctrue" name="iap" value="true" checked />
-                        <label for="true">Активный</label>
+                        <label for="ctrue">Активный</label>
                         <input type="radio" id="cfalse" name="iap" value="false" />
-                        <label for="false">Неактивный</label>
+                        <label for="cfalse">Неактивный</label>
                     </fieldset>
 
                     <div id="btnhldr">
@@ -87,9 +87,9 @@
                     <fieldset id="slct">
                         <legend>Активность задачи</legend>
                         <input type="radio" id="ttrue" name="iat" value="true" checked />
-                        <label for="true">Активная</label>
+                        <label for="ttrue">Активная</label>
                         <input type="radio" id="tfalse" name="iat" value="false" />
-                        <label for="false">Неактивная</label>
+                        <label for="tfalse">Неактивная</label>
                     </fieldset>
                     <div id="btnhldr">
                         <button class="ctrlbtn" id="tcngdb">Подтвердить</button>
@@ -167,6 +167,31 @@
         </div>
         <!--Страница представления-->
         <div class="main" id="main2">
+            <div class="maindiv" id="mainbrowse">
+                <div class="maincontent" id="browse">
+                    <div id="searchcontrols">
+                        <div id="searchcontrol1">
+                            <input type="date" id="searchdate1" value="2022-02-04" min="2012-01-01" max="2100-12-31">
+                            <input type="date" id="searchdate2" value="2022-02-04" min="2012-01-01" max="2100-12-31">
+                            <button class="ctrlbtn" id="search">Поиск</button>
+                            <button class="ctrlbtn" id="searchcancel">Сбросить</button>
+                        </div>
+                        <div id="searchcontrolcomment">
+                           <p>Для вывода информации за конкретный день поставьте оба поля выбора даты на одно и то же значение</p>
+                        </div>
+                    </div>
+                    <div class="tabtitle">
+                        <div class="tt">Статус</div>
+                        <div class="tt">Название проекта</div>
+                        <div class="tt">Название задачи</div>
+                        <div class="tt">Точная дата</div>
+                        <div class="tt">Количество часов</div>
+                        <div class="tt">Описание</div>
+                    </div>
+                    <div class="holder" id="browseholde">
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="/js/hpscript.js"></script>
     </body>

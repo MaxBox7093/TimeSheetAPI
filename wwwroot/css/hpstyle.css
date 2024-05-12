@@ -130,7 +130,7 @@
     display: none;
 }
 
-#prjhlde, #thlde, #timehlde {
+#prjhlde, #thlde, #timehlde, #browseholde {
     margin: 0;
     padding: 4px;
     display: flex;
@@ -194,10 +194,6 @@
     display: flex;
 }
 
-#browse, #tbrowse, #timebrowse {
-    display: none;
-}
-
 .adddial, .chngdial {
     display: none;
     z-index: 9999;
@@ -246,7 +242,7 @@
     background-color: rgb(111, 111, 142, 0.1);
 }
 
-#bback, #editback, #timeeditback {
+#editback, #timeeditback {
     border-width: 2px;
     border-color: cadetblue;
     color: cadetblue;
@@ -279,7 +275,7 @@
         border-bottom-style: none;
     }
 
-.pjtxt, .ttxt, .tmtxt {
+.pjtxt, .ttxt, .tmtxt, .twtxt {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -294,7 +290,7 @@
     cursor: pointer;
 }
 
-    .pjtxt:last-child, .ttxt:last-child, .tmtxt:last-child {
+    .pjtxt:last-child, .ttxt:last-child, .tmtxt:last-child, .twtxt:last-child {
         border-right-style: none;
     }
 
@@ -330,3 +326,8 @@
         border-right-style: none;
     }
 
+#search, #searchcancel {
+    font-size: large;
+    font-weight: bold;
+    border-width: 2px;
+}

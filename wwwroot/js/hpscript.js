@@ -12,6 +12,8 @@ var task = [];
 
 var time = [];
 
+var view = [];
+
 var pgslct = 1;
 
 var tabselect = 1;
@@ -46,9 +48,10 @@ document.getElementById('mb1').addEventListener('click', function () {
 
 document.getElementById('mb2').addEventListener('click', function () {
     pgslct = 2;
+    view = [];
     bind();
     chngpg(2);
-    
+    fetchViewTimeSheets(id, '', '');
 })
 
 // Проект и всё, что с ним
@@ -604,6 +607,73 @@ function fetchDelTime(tidd, id0) {
         })
 }
 
+//Окно просмотра
+
+function fetchViewTimeSheets(userid, datestart, dateend) {
+    if ((datestart != '') && (dateend != '')) {
+        fetch(`https://localhost:7287/api/getAllTimeSheetByDate?user_id=${userid}&dateStart=${datestart}&dateEnd=${dateend}`,
+            {
+                mode: 'cors',
+                method: 'GET'
+            }
+        ).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            for (let tmp in data) {
+                let tt = {};
+                tt.date = convertDate(data[tmp].date_ts, 1);
+                tt.time = data[tmp].time_ts;
+                tt.description = data[tmp].description_ts;
+                tt.taskname = data[tmp].task_name;
+                tt.projname = data[tmp].project_name;
+                view.push(tt);
+            }
+            setView(2);
+        })
+    } else {
+        fetch(`https://localhost:7287/api/getAllTimeSheet?user_id=${userid}`,
+            {
+                mode: 'cors',
+                method: 'GET'
+            }
+        ).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            for (let tmp in data) {
+                let tt = {};
+                tt.date = convertDate(data[tmp].date_ts, 1);
+                tt.time = data[tmp].time_ts;
+                tt.description = data[tmp].description_ts;
+                tt.taskname = data[tmp].task_name;
+                tt.projname = data[tmp].project_name;
+                view.push(tt);
+            }
+            setView(2);
+        })
+    }
+}
+
+document.getElementById('search').addEventListener('click', function () {
+    let dt1 = document.getElementById('searchdate1').value;
+    let dt2 = document.getElementById('searchdate2').value;
+    if (dt2 < dt1) {
+        
+        let tmp = dt1;
+        dt1 = dt2;
+        dt2 = tmp;
+        console.log(dt1 + ' ' + dt2 + ' ' + tmp)
+    }
+    view = [];
+    fetchViewTimeSheets(id, convertDate(dt1, 2), convertDate(dt2, 2));
+})
+
+document.getElementById('searchcancel').addEventListener('click', function () {
+    document.getElementById('searchdate1').value = "2022-02-04";
+    document.getElementById('searchdate2').value = "2022-02-04";
+    view = [];
+    fetchViewTimeSheets(id, '', '');
+})
+
 //Общие функции
 
 function bind() {
@@ -633,10 +703,14 @@ function bindDel() {
             document.getElementById('pj' + tid).style.backgroundColor = 'rgb(247,247,255)';
         });
         elements[j].addEventListener('dblclick', function () {
-            tabselect = 2;
-            projname = proj[Number(this.parentNode.id.replace('pj', ''))].name;
-            fetchTask(proj[ondel].id, 1);
-            loadtab(tabselect);
+            if (proj[Number(this.parentNode.id.replace('pj', ''))].isActiveProject) {
+                tabselect = 2;
+                projname = proj[Number(this.parentNode.id.replace('pj', ''))].name;
+                fetchTask(proj[ondel].id, 1);
+                loadtab(tabselect);
+            } else {
+                document.getElementById('desel').click();
+            }
         });
     }
 }
@@ -684,10 +758,15 @@ function bindDelTab() {
             
         });
         elements[j].addEventListener('dblclick', function () {
-            tabselect = 3;
-            taskname = task[Number(this.parentNode.id.replace('t', ''))].name;
-            fetchTime(task[ondeltask].id, 1);
-            loadtab(tabselect);
+            if (task[Number(this.parentNode.id.replace('t', ''))].isActiveTask) {
+                tabselect = 3;
+                taskname = task[Number(this.parentNode.id.replace('t', ''))].name;
+                fetchTime(task[ondeltask].id, 1);
+                loadtab(tabselect);
+            } else {
+                document.getElementById('tdesel').click();
+            }
+            
         });
     }
 }
@@ -704,6 +783,47 @@ function bindDelTime() {
             }
             document.getElementById('tm' + tid).style.backgroundColor = 'rgb(247,247,255)';
         });
+    }
+}
+
+function setView(il) {
+    document.getElementById('browseholde').innerHTML = '';
+    for (let i = 0; i < view.length; i++) {
+        let tmpdiv = document.createElement('div');
+        tmpdiv.classList.add('tc');
+        tmpdiv.id = `tw${i}`;
+
+        let td1 = document.createElement('div');
+        let td2 = document.createElement('div');
+        let td3 = document.createElement('div');
+        let td4 = document.createElement('div');
+        let td5 = document.createElement('div');
+        let td6 = document.createElement('div');
+
+        timesetstickercolor(td1, view[i].date);
+        td2.innerHTML = view[i].projname;
+        td3.innerHTML = view[i].taskname;
+        td4.innerHTML = convertDate(view[i].date, 2);
+        td5.innerHTML = view[i].time;
+        td6.innerHTML = view[i].description;
+
+        td1.classList.add('twtxt');
+        td2.classList.add('twtxt');
+        td3.classList.add('twtxt');
+        td4.classList.add('twtxt');
+        td5.classList.add('twtxt');
+        td6.classList.add('twtxt');
+
+        tmpdiv.appendChild(td1);
+        tmpdiv.appendChild(td2);
+        tmpdiv.appendChild(td3);
+        tmpdiv.appendChild(td4);
+        tmpdiv.appendChild(td5);
+        tmpdiv.appendChild(td6);
+
+        if (il == 2) {
+            document.getElementById('browseholde').appendChild(tmpdiv);
+        }
     }
 }
 
@@ -823,4 +943,23 @@ function convertDate(date, direction) {
     }
     console.log(date);
     return date;
+}
+
+function timesetstickercolor(html, date) {
+    let tmptime = 0;
+    for (let i = 0; i < view.length; i++) {
+        if (date == view[i].date) {
+            tmptime = tmptime + view[i].time;
+        }
+    }
+        if (tmptime == 8) {
+            html.style.backgroundColor = "green";
+        } else {
+            if (tmptime > 8) {
+                html.style.backgroundColor = "red";
+            } else {
+                html.style.backgroundColor = "orange";
+            }
+        }
+    console.log(html);
 }
