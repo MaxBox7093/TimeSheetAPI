@@ -196,7 +196,6 @@ function fetchPostProj(id2, cd, nm, il) {
                     },
                     body: JSON.stringify(prj)
                 }).then(function (response) {
-                    fetchProj(il);
                     setProjs(il);
                     location.reload();
                 });
@@ -379,7 +378,7 @@ function fetchPostTask(nm, il) {
                     let tt = { id: mxid, name: nm, isActiveTask: true };
                     task.push(tt);
                     fetchTask(il);
-                    setTask(il);
+                    setTask(proj[ondel].id, il);
                 });
         }
     }
@@ -560,7 +559,7 @@ function fetchPostTime(dt, tm, nm, il) {
                         }
                         let tt = { id: mxid, date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id };
                         time.push(tt);
-                        fetchTime(il);
+                        fetchTime(task[ondeltask].id, il);
                         setTime(il);
                     });
             }
