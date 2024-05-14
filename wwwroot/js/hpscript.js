@@ -343,6 +343,7 @@ function fetchTask(pc, il) {
         return response.json();
     }).then(function (data) {
         console.log(data);
+        task = [];
         for (let tmp in data) {
             let tt = {};
             tt.id = data[tmp].id_task;
@@ -368,17 +369,7 @@ function fetchPostTask(nm, il) {
                     },
                     body: JSON.stringify(prj)
                 }).then(function (response) {
-                    let mxid = 0;
-                    for (let i = 0; i < task.length; i++)
-                    {
-                        if (task[i].id >= mxid) {
-                            mxid = task[i].id;
-                        }
-                    }
-                    let tt = { id: mxid, name: nm, isActiveTask: true };
-                    task.push(tt);
                     fetchTask(proj[ondel].id, il);
-                    setTask(il);
                 });
         }
     }
@@ -518,6 +509,7 @@ function fetchTime(tid, il) {
         return response.json();
     }).then(function (data) {
         console.log(data);
+        time = [];
         for (let tmp in data) {
             let tt = {};
             tt.id = data[tmp].id;
@@ -551,16 +543,7 @@ function fetchPostTime(dt, tm, nm, il) {
                         },
                         body: JSON.stringify(prj)
                     }).then(function (response) {
-                        let mxid = 0;
-                        for (let i = 0; i < time.length; i++) {
-                            if (time[i].id >= mxid) {
-                                mxid = time[i].id;
-                            }
-                        }
-                        let tt = { id: mxid, date: dt, time: tm, description: nm, ts_ref: task[ondeltask].id };
-                        time.push(tt);
                         fetchTime(task[ondeltask].id, il);
-                        setTime(il);
                     });
             }
         }
