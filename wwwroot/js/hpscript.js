@@ -377,8 +377,8 @@ function fetchPostTask(nm, il) {
                     }
                     let tt = { id: mxid, name: nm, isActiveTask: true };
                     task.push(tt);
-                    fetchTask(il);
-                    setTask(proj[ondel].id, il);
+                    fetchTask(proj[ondel].id, il);
+                    setTask(il);
                 });
         }
     }
