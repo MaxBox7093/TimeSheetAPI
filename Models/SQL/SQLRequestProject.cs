@@ -94,7 +94,11 @@ namespace TimeSheetAPI.Models.SQL
             }
         }
         
-        //Нахождение проектов по id пользователя
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public List<Project> SelectProjects(int userId)
         {
             List<Project> projects = new List<Project>();
